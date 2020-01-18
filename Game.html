@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Connect 4: a two-player connection game</title>
+    <link rel="stylesheet" href="./stylesheets/game.css" type="text/css"/>
+  </head>
+  <body>
+    <main>
+        <div class = "container">
+            <div id="square-large" class="background">
+                <div id="square-small" class="background">
+                    <div id = "main-part">
+                        <section id="top-bar">
+                            <h1 id = "logo" class = "logo">🅒🅞🅝🅝🅔🅒🅣 ➍</h1>
+                            <a id = "home" class="button" href="./splash.html">HOME</a>
+                            <a id = "rules" class="button" href="./rules.html">RULES</a>
+                        </section>
+
+                        <section id="game">
+            
+                            <table id = "mesh">
+                                <tr id = "y0" class = "row">
+                                    <th> <div id = "x0y0" class = "bubble"></div> </th>
+                                    <th> <div id = "x1y0" class = "bubble"></div> </th>
+                                    <th> <div id = "x2y0" class = "bubble"></div> </th>
+                                    <th> <div id = "x3y0" class = "bubble"></div> </th>
+                                    <th> <div id = "x4y0" class = "bubble"></div> </th>
+                                    <th> <div id = "x5y0" class = "bubble"></div> </th>
+                                    <th> <div id = "x6y0" class = "bubble"></div> </th>
+                                </tr>
+                                <tr id = "y1" class = "row">
+                                    <th> <div id = "x0y1" class = "bubble"></div> </th>
+                                    <th> <div id = "x1y1" class = "bubble"></div> </th>
+                                    <th> <div id = "x2y1" class = "bubble"></div> </th>
+                                    <th> <div id = "x3y1" class = "bubble"></div> </th>
+                                    <th> <div id = "x4y1" class = "bubble"></div> </th>
+                                    <th> <div id = "x5y1" class = "bubble"></div> </th>
+                                    <th> <div id = "x6y1" class = "bubble"></div> </th>
+                                </tr>
+                                <tr id = "y2" class = "row">
+                                    <th> <div id = "x0y2" class = "bubble"></div> </th>
+                                    <th> <div id = "x1y2" class = "bubble"></div> </th>
+                                    <th> <div id = "x2y2" class = "bubble"></div> </th>
+                                    <th> <div id = "x3y2" class = "bubble"></div> </th>
+                                    <th> <div id = "x4y2" class = "bubble"></div> </th>
+                                    <th> <div id = "x5y2" class = "bubble"></div> </th>
+                                    <th> <div id = "x6y2" class = "bubble"></div> </th>
+                                </tr>
+                                <tr id = "y3" class = "row">
+                                    <th> <div id = "x0y3" class = "bubble"></div> </th>
+                                    <th> <div id = "x1y3" class = "bubble"></div> </th>
+                                    <th> <div id = "x2y3" class = "bubble"></div> </th>
+                                    <th> <div id = "x3y3" class = "bubble"></div> </th>
+                                    <th> <div id = "x4y3" class = "bubble"></div> </th>
+                                    <th> <div id = "x5y3" class = "bubble"></div> </th>
+                                    <th> <div id = "x6y3" class = "bubble"></div> </th>
+                                </tr>
+                                <tr id = "y4" class = "row"> 
+                                    <th> <div id = "x0y4" class = "bubble"></div> </th>
+                                    <th> <div id = "x1y4" class = "bubble"></div> </th>
+                                    <th> <div id = "x2y4" class = "bubble"></div> </th>
+                                    <th> <div id = "x3y4" class = "bubble"></div> </th>
+                                    <th> <div id = "x4y4" class = "bubble"></div> </th>
+                                    <th> <div id = "x5y4" class = "bubble"></div> </th>
+                                    <th> <div id = "x6y4" class = "bubble"></div> </th>
+                                </tr>
+                                <tr id = "y5" class = "row">
+                                    <th> <div id = "x0y5" class = "bubble"></div> </th>
+                                    <th> <div id = "x1y5" class = "bubble"></div> </th>
+                                    <th> <div id = "x2y5" class = "bubble"></div> </th>
+                                    <th> <div id = "x3y5" class = "bubble"></div> </th>
+                                    <th> <div id = "x4y5" class = "bubble"></div> </th>
+                                    <th> <div id = "x5y5" class = "bubble"></div> </th>
+                                    <th> <div id = "x6y5" class = "bubble"></div> </th>
+                                </tr>
+                            </table>
+                    
+                        </section>
+                    </div>
+                    <section id="side-bar">
+                        <div id = "game-rules">
+                            <h2 class = "title">Game Rules</h2>
+                            <p1 class="text"></p1>
+                        </div>
+                        <div id = "announcements">
+                            <h2 class = "title">Announcements</h2>
+                            <p1 id = "playerInfo">Player 1 turn!</p1>
+                        </div>
+                        <div id = "game-version">
+                            <h2 class = "title">2020-01 <br> game version 1.0</h2>
+                        </div>
+                    </section>
+                </div>  
+            </div>
+        </div>
+    </main>
+
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+        var setColor = "rgb(0, 128, 0)";
+        var setColor2 = "rgb(253, 98, 70)";
+        var fallingColor = "rgb(52, 168, 50)";
+        var fallingColor2 = "rgb(253, 168, 50)";
+        var turn = 1;
+
+        var main = function () { "use strict";
+
+            //Changes turn variable and updates text on the screen
+            function changeTurn(){
+                if(turn == 1){
+                    $('#playerInfo').text("Player 2 turn!");
+                    turn = 0;
+                }else{
+                    $('#playerInfo').text("Player 1 turn!");
+                    turn = 1;
+                }
+            }
+
+            //Colors the final item after the falling animation is completed
+            function colorSelected(temp2){
+                if(turn == 1){
+                            $(temp2).css("background-color",setColor);
+                            play("opponent2_4");
+                            changeTurn();
+                        }else{
+                            $(temp2).css("background-color",setColor2);
+                            play("opponent1_4");
+                            changeTurn();
+                        }
+                        return;
+            }
+
+            //Plays audio with only title required as an input
+            function play(audio){
+                var obj = document.createElement("audio");
+                obj.src = "./"+audio+".mp3"; 
+                obj.play(); 
+            }
+
+            //checks wether anybody won
+            function check(){
+
+            }
+
+            //Helper function for time delay. It is called by 'fallingAnim' and then it calls itself
+            //It creates the falling animation
+            function falling(coords, stop, temp, i, color){
+                    clearColors($(coords).get(0));
+                    i++;
+                    if(i < stop){
+                        $("#" + temp + i).css("background-color",color);
+                        setTimeout(function(){ falling(coords, stop, temp, i, color); }, 75);
+                    }else{
+                        colorSelected(coords);
+                    }
+
+            }
+
+            //This function takes coordinates and creates falling animation with time delay
+            //Uses falling, colorSelected functions
+            function fallingAnim(coords){
+                var stop = coords.slice(3,4);
+                var temp = coords.slice(0,3);
+                if(turn == 1 ){
+                    var color = fallingColor;
+                }else{
+                    var color = fallingColor2;
+                }
+
+                if(temp == stop){
+                    colorSelected(coords);
+                    return;
+                }
+
+                var color
+                var i = 0;
+                    $("#" + temp + i).css("background-color",color);
+                    setTimeout(function(){ falling("#" + temp + stop, stop, temp, i,color); }, 75);
+            }
+
+            //Clears colors & reduces the size of the bubbles to normal, leaving only the ones that already have a green or orange ball
+            function clearColors($temp){
+                $(this).css("background-color","white");
+                $('.bubble').each(function(i, obj) {
+                    if(this.id.slice(0, 2) == $temp.id.slice(0,2)){
+                        var color = $( this ).css( "background-color" );
+                        $(this).css("width","85%");
+                        $(this).css("height","90%");
+                        if(color != setColor && color != setColor2){
+                            $(this).css("background-color","white");
+                        }
+                    }       
+                });
+            }
+
+            //When the mouse hovers over a column, it is highlighted by turning that column gray
+            $(".bubble").mouseover(function() {
+                var $temp = this;
+                $('.bubble').each(function(i, obj) {
+                    if(this.id.slice(0, 2) == $temp.id.slice(0,2)){
+                        var color = $( this ).css( "background-color" );
+                        if(color != setColor && color != setColor2){
+                            $(this).css("background-color","grey");
+                        }
+                    }       
+                }); 
+            }); 
+
+            //When the mouse is clicked, the column turns red until the mouse is released
+            $(".bubble").mousedown(function() {
+                var $temp = this;
+                $('.bubble').each(function(i, obj) {
+                    if(this.id.slice(0, 2) == $temp.id.slice(0,2)){
+                        var color = $( this ).css( "background-color" );
+                        $(this).css("width","90%");
+                         $(this).css("height","95%");
+                        if(color != setColor && color != setColor2){
+                            $(this).css("background-color","red");
+                        }
+                    }       
+                });
+                
+            });
+                
+            //When the mouse is released falling animation is executed and a bubble that is lowest free bubble gets colored, 
+            //depending on turn. Player 1 is green, player2 is orange
+            $(".bubble").mouseup(function() {
+                clearColors(this);
+                var temp = this.id.slice(0,3);
+                var i = 5;
+
+
+                while(i >= 0){
+                    var temp2 = temp + i;
+                    var color = $( "#" + temp2 ).css( "background-color" );
+                    if(color != setColor && color != setColor2){
+                        fallingAnim(temp2);
+                        return;
+                    }
+                    i--;
+                }
+                play("error");
+                $('#playerInfo').text("!!!The stack is full!!!");
+                setTimeout(function(){ changeTurn(); changeTurn();}, 1500);
+                
+                 
+            }); 
+
+            $("#playerInfo").mouseup(function() {
+                play("theme");
+            });
+            //when the mouse stops hovering, this function removed the gray highlight, leaving only already activated bubbles
+            $(".bubble").mouseleave(function() {
+                clearColors(this);
+            }); 
+
+            
+        };
+
+
+        $(document).ready(main);
+    </script>
+
+  </body>
+</html>
