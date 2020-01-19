@@ -66,19 +66,21 @@ var main = function () { "use strict";
         }
     }
 
-    function check_vertically(){ // checks 3 more disks  vertically off current colour 
+    // checks 3 more disks  vertically off current colour 
+    function check_vertically()
+    { 
         // count how many spots from current location we can move vertically 
         var curr_loc = parseInt(current_disk.slice(3,4));
         var disk_count = 1;
 
         // check down
         for(var i = curr_loc + 1; i<=5 ; i ++){
-            check_loc = current_disk.slice(0,3) + i;
+            var check_loc = current_disk.slice(0,3) + i;
             
             var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
             if(color == currentColor()){
                disk_count++;
-            }else if(disk_count >= 3){
+            }else if(disk_count >= 4){
                 gameOver(turn);
                 return;
             }else{
@@ -88,12 +90,12 @@ var main = function () { "use strict";
 
         // check up
             for(var i = curr_loc - 1; i >= 0; i --){
-                check_loc = current_disk.slice(0,3) + i;
+                var check_loc = current_disk.slice(0,3) + i;
                 
                 var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
                 if(color == currentColor()){
                     disk_count++;
-                }else if(disk_count >= 3){
+                }else if(disk_count >= 4){
                     gameOver(turn);
                     return;
                 }else{
@@ -101,29 +103,144 @@ var main = function () { "use strict";
                 }
             }
     }
+
+    function check_horizontally()
+    {
+            // count how many spots from current location we can move vertically 
+            var curr_loc = parseInt(current_disk.slice(1,2));
+            var disk_count = 1;
+    
+           // check right
+                for(var i = curr_loc + 1; i <= 6; i ++){
+                    var check_loc = current_disk.slice(0,1) + i + current_disk.slice(2,4);
+                    //console.log(disk_count);
+
+                    var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
+                    if(color == currentColor()){
+                        disk_count++;
+                        console.log(disk_count );
+                        if(disk_count >= 4){
+                            gameOver(turn);
+                            return;
+                        }
+                    }else{
+                        break;
+                    }
+                } 
+    
+             // check left
+                for(var i = curr_loc - 1; i >= 0; i --){
+                    var check_loc = current_disk.slice(0,1) + i + current_disk.slice(2,4);
+                    //console.log(disk_count);
+
+                    var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
+                    if(color == currentColor()){
+                        disk_count++;
+                        console.log(disk_count );
+                        if(disk_count >= 4){
+                            gameOver(turn);
+                            return;
+                        }
+                    }else{
+                        break;
+                    }
+                } 
+    
+    }
+
+    function check_diagonally()
+    {
+            // count how many spots from current location we can move vertically 
+            var curr_loc_x = parseInt(current_disk.slice(1,2));
+            var curr_loc_y = parseInt(current_disk.slice(3,4));
+            var disk_count = 1;
+    
+           // check right up
+                for(var i = curr_loc_x + 1,  j = curr_loc_y - 1; i <= 6 && j >= 0; i ++, j--){
+                    
+                    var check_loc = "x" + i + "y" + j;
+
+                    var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
+                    if(color == currentColor()){
+                        disk_count++;
+                        console.log(disk_count );
+                        if(disk_count >= 4){
+                            gameOver(turn);
+                            return;
+                        }
+                    }else{
+                        break;
+                    }
+                } 
+    
+             // check left down
+             for(var i = curr_loc_x -1,  j = curr_loc_y + 1; i >= 0  && j <= 5; i --, j++){
+                    
+                var check_loc = "x" + i + "y" + j;
+
+                var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
+                if(color == currentColor()){
+                    disk_count++;
+                    console.log(disk_count );
+                    if(disk_count >= 4){
+                        gameOver(turn);
+                        return;
+                    }
+                }else{
+                    break;
+                }
+            }
+    
+    }
+
+    function check_cross_diagonally()
+    {
+            // count how many spots from current location we can move vertically 
+            var curr_loc_x = parseInt(current_disk.slice(1,2));
+            var curr_loc_y = parseInt(current_disk.slice(3,4));
+            var disk_count = 1;
+    
+            
+           // check left up
+                for(var i = curr_loc_x - 1,  j = curr_loc_y - 1; i >=0  && j >= 0; i--, j--){
+                    
+                    var check_loc = "x" + i + "y" + j;
+                    var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
+                    if(color == currentColor()){
+                        disk_count++;
+                        if(disk_count >= 4){
+                            gameOver(turn);
+                            return;
+                        }
+                    }else{
+                        break;
+                    }
+                } 
+    
+             // check right down
+             for(var i = curr_loc_x + 1,  j = curr_loc_y + 1; i <= 6  && j <= 5; i ++, j++){
+                    
+                var check_loc = "x" + i + "y" + j;
+                var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
+                if(color == currentColor()){
+                    disk_count++;
+                    if(disk_count >= 4){
+                        gameOver(turn);
+                        return;
+                    }
+                }else{
+                    break;
+                }
+            }
+    
+    }
+
     //checks whether anybody won
     function check(){
-        var temp = "x0y"; //sets the first column to be checked
-        var i = 5; //how many rows there are from 0
-        var colorCount = 0; //counts how many current color bubbles it found in a row
-
         check_vertically(); // checks 3 more disks  vertically off current colour 
-        //check_horizontally();// checks 3 more disks  horizontally off current colour 
-        //check_diagonally(); // checks 3 more disks  diagonally off current colour
-        //check_cross_diagonally(); // checks 3 more disks  cross diagonally off current colour
-        while(i >= 0){
-            var temp2 = temp + i; //each iteration ads the next int to the string 'temp'
-            var color = $( "#" + temp2 ).css( "background-color" ); //saves the color of the current bubble
-            if(color == currentColor()){
-                colorCount++;
-            }else if(colorCount >= 4){
-                gameOver(turn);
-                return;
-            }else{
-                colorCount = 0;
-            }
-            i--;
-        }
+        check_horizontally();// checks 3 more disks  horizontally off current colour 
+        check_diagonally(); // checks 3 more disks  diagonally off current colour
+        check_cross_diagonally(); // checks 3 more disks  cross diagonally off current colour
 
     }
 
