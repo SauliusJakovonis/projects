@@ -19,10 +19,10 @@ main,
 
 #description {
     color: rgb(255, 255, 255);
-    font-size: 25px;
+    font-size: 23px;
     padding: 10px;
     position: absolute;
-    top: 270px;
+    top: 80px;
     left: 10px;
 }
 
@@ -46,11 +46,11 @@ a.button {
 }
 
 #play {
-    top: 90px;
+    top: 160px;
 }
 
 #rules {
-    top: 180px;
+    top: 250px;
 
 }
 
