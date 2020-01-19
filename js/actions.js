@@ -90,6 +90,7 @@ var main = function () { "use strict";
     //Shows game-over screen and asks to play again
     function gameOver(turn){
         $('#playerInfo').text("Congratulations!! Player " + currentPlayer() + " won!");
+        $('#won').text("Player " + currentPlayer() + " won!");
         $('#game-over').css("visibility", "visible");
         $('#playerInfo').css("color", "green");
         play("opponent1_2");
