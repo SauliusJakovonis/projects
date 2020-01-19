@@ -4,6 +4,7 @@ var fallingColor = "rgb(52, 168, 50)";
 var fallingColor2 = "rgb(253, 168, 50)";
 var freeze = false; //freezes the game after the game is over
 var turn = 1;
+var current_disk = ""; // saves last placed disk on game area
 
 var main = function () { "use strict";
 
@@ -65,12 +66,51 @@ var main = function () { "use strict";
         }
     }
 
-    //checks wether anybody won
+    function check_vertically(){ // checks 3 more disks  vertically off current colour 
+        // count how many spots from current location we can move vertically 
+        var curr_loc = parseInt(current_disk.slice(3,4));
+        var disk_count = 1;
+
+        // check down
+        for(var i = curr_loc + 1; i<=5 ; i ++){
+            check_loc = current_disk.slice(0,3) + i;
+            
+            var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
+            if(color == currentColor()){
+               disk_count++;
+            }else if(disk_count >= 3){
+                gameOver(turn);
+                return;
+            }else{
+                break;
+            }
+        }
+
+        // check up
+            for(var i = curr_loc - 1; i >= 0; i --){
+                check_loc = current_disk.slice(0,3) + i;
+                
+                var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
+                if(color == currentColor()){
+                    disk_count++;
+                }else if(disk_count >= 3){
+                    gameOver(turn);
+                    return;
+                }else{
+                    break;
+                }
+            }
+    }
+    //checks whether anybody won
     function check(){
         var temp = "x0y"; //sets the first column to be checked
         var i = 5; //how many rows there are from 0
         var colorCount = 0; //counts how many current color bubbles it found in a row
 
+        check_vertically(); // checks 3 more disks  vertically off current colour 
+        //check_horizontally();// checks 3 more disks  horizontally off current colour 
+        //check_diagonally(); // checks 3 more disks  diagonally off current colour
+        //check_cross_diagonally(); // checks 3 more disks  cross diagonally off current colour
         while(i >= 0){
             var temp2 = temp + i; //each iteration ads the next int to the string 'temp'
             var color = $( "#" + temp2 ).css( "background-color" ); //saves the color of the current bubble
@@ -89,7 +129,7 @@ var main = function () { "use strict";
 
     //Shows game-over screen and asks to play again
     function gameOver(turn){
-        $('#playerInfo').text("Congratulations!! Player " + currentPlayer() + " won!");
+        $('#playerInfo').text("Congratulations!! Player " + currentPlayer() + "wins!");
         $('#won').text("Player " + currentPlayer() + " won!");
         $('#game-over').css("visibility", "visible");
         $('#playerInfo').css("color", "green");
@@ -193,6 +233,8 @@ var main = function () { "use strict";
                     var temp2 = temp + i;
                     var color = $( "#" + temp2 ).css( "background-color" );
                     if(color != setColor && color != setColor2){
+                        // save current player 
+                        current_disk = temp2; 
                         fallingAnim(temp2);
                         return;
                     }
