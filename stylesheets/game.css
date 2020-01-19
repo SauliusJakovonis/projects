@@ -11,7 +11,8 @@ a.button {
     background-color: rgb(253, 98, 70);
     text-decoration: none;
     color: white;
-    margin-top: 5px;
+    position: relative;
+    top: 15px;
     margin-right: 5px;
     font-size: 30px;
     border-radius: 2px;
