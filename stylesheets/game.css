@@ -156,9 +156,14 @@ div.bubble {
     color:#bdbdbd
 }
 
+#announcements {
+    border-radius: 6px;
+    margin-right: 15px;
+}
+
 #playerInfo {
     font-size: 25px;
-    color: red;
+    color: white;
 }
 
 #game-version {

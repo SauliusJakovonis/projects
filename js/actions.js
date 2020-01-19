@@ -11,6 +11,7 @@ var main = function () { "use strict";
     //Changes turn variable and updates text on the screen
     function changeTurn(){
         if(!freeze){
+            $('#playerInfo').css("color", "white");
             if(turn == 1){
                 $('#playerInfo').text("Player 2's turn!");
                 turn = 0;
@@ -18,7 +19,23 @@ var main = function () { "use strict";
                 $('#playerInfo').text("Player 1's turn!");
                 turn = 1;
             }
+            flashAnnouncement(1);
         }
+    }
+
+    //flashes the announcement box
+    function flashAnnouncement(action){
+        if(action == 1){
+            $("#announcements").css("background-color", "grey");
+        }else if(action == 2){
+            $("#announcements").css("background-color", "red");
+        }
+        
+        setTimeout(function(){ clearAnnouncement(); }, 50);
+    }
+
+    function clearAnnouncement(){
+        $("#announcements").css("background-color", "");
     }
 
     //Colors the final item after the falling animation is completed
@@ -358,7 +375,9 @@ var main = function () { "use strict";
                     i--;
                 }
                 play("error");
+                $('#playerInfo').css("color", "red");
                 $('#playerInfo').text("The stack is full!");
+                flashAnnouncement(2);
                 setTimeout(function(){ changeTurn(); changeTurn();}, 1500);
             }
         }); 
