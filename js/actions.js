@@ -26,16 +26,16 @@ var main = function () { "use strict";
     //flashes the announcement box
     function flashAnnouncement(action){
         if(action == 1){
-            $("#announcements").css("background-color", "grey");
+            $("#client-messages").css("background-color", "grey");
         }else if(action == 2){
-            $("#announcements").css("background-color", "red");
+            $("#client-messages").css("background-color", "red");
         }
         
         setTimeout(function(){ clearAnnouncement(); }, 50);
     }
 
     function clearAnnouncement(){
-        $("#announcements").css("background-color", "");
+        $("#client-messages").css("background-color", "");
     }
 
     //Colors the final item after the falling animation is completed

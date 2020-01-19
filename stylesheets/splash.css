@@ -67,6 +67,8 @@ a.button {
     height: 400px;
     background-color: #2b2b2b;
     display: flex;
+    position: relative;
+    left:115px;
     justify-content: center;
     align-items: center;
 }
@@ -77,7 +79,72 @@ a.button {
     height: calc(100% - 20px);
     background-color: #707070;
     position: relative;
-
     display: flex;
     justify-content: center;
+}
+
+#stats {
+    border-radius: 8px;
+    position:relative;
+    left: 115px;
+    top: -20px;
+    width: 230px;
+    height: 330px;
+    background-color: rgb(253, 98, 70);
+    z-index: 99999;
+    visibility: hidden;
+}
+
+#icon {
+    width:50px;
+    height:50px;
+    position:relative;
+    top: 0px;
+    left: 260px;
+    cursor: pointer;
+}
+
+#square-small2{
+    border-radius: 6px;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    background-color: #707070;
+    position: relative;
+    left: 5px;
+    top: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.text {
+    color: white;
+    font-size: 22px;
+    left: 4px;
+}
+
+#stats-title {
+    font-size: 30px;
+    position: absolute;
+    top: 8px;
+    color: rgb(54, 54, 54);
+}
+
+#times {
+    position: absolute;
+    top: 100px;
+}
+
+#duration {
+    position: absolute;
+    top: 150px;
+}
+
+#wins1 {
+    position: absolute;
+    top: 200px;
+}
+
+#wins2 {
+    position: absolute;
+    top: 250px;
 }
