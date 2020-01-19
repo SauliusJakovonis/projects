@@ -103,11 +103,11 @@ div.bubble {
 }
 
 #replay, #home2 {
-position: absolute;
-border-radius: 7px;
-width: 150px;
-text-align: center;
-left: 50px;
+    position: absolute;
+    border-radius: 7px;
+    width: 150px;
+    text-align: center;
+    left: 50px;
 }
 
 #home2{

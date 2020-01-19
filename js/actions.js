@@ -12,10 +12,10 @@ var main = function () { "use strict";
     function changeTurn(){
         if(!freeze){
             if(turn == 1){
-                $('#playerInfo').text("Player 2 turn!");
+                $('#playerInfo').text("Player 2's turn!");
                 turn = 0;
             }else{
-                $('#playerInfo').text("Player 1 turn!");
+                $('#playerInfo').text("Player 1's turn!");
                 turn = 1;
             }
         }
@@ -358,7 +358,7 @@ var main = function () { "use strict";
                     i--;
                 }
                 play("error");
-                $('#playerInfo').text("!!!The stack is full!!!");
+                $('#playerInfo').text("The stack is full!");
                 setTimeout(function(){ changeTurn(); changeTurn();}, 1500);
             }
         }); 
