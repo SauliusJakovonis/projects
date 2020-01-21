@@ -84,8 +84,7 @@ var main = function () { "use strict";
     }
 
     // checks 3 more disks  vertically off current colour 
-    function check_vertically()
-    { 
+    function check_vertically(){ 
         // count how many spots from current location we can move vertically 
         var curr_loc = parseInt(current_disk.slice(3,4));
         var disk_count = 1;
@@ -121,8 +120,7 @@ var main = function () { "use strict";
             }
     }
 
-    function check_horizontally()
-    {
+    function check_horizontally(){
             // count how many spots from current location we can move vertically 
             var curr_loc = parseInt(current_disk.slice(1,2));
             var disk_count = 1;
@@ -165,8 +163,7 @@ var main = function () { "use strict";
     
     }
 
-    function check_diagonally()
-    {
+    function check_diagonally(){
             // count how many spots from current location we can move vertically 
             var curr_loc_x = parseInt(current_disk.slice(1,2));
             var curr_loc_y = parseInt(current_disk.slice(3,4));
@@ -210,8 +207,7 @@ var main = function () { "use strict";
     
     }
 
-    function check_cross_diagonally()
-    {
+    function check_cross_diagonally(){
             // count how many spots from current location we can move vertically 
             var curr_loc_x = parseInt(current_disk.slice(1,2));
             var curr_loc_y = parseInt(current_disk.slice(3,4));
@@ -271,46 +267,41 @@ var main = function () { "use strict";
         freeze = true;
     }
 
-    //Helper function for time delay. It is called by 'fallingAnim' and then it calls itself
-    //It creates the falling animation
-    function falling(coords, stop, temp, i, color){
-            clearColors($(coords).get(0));
-            i++;
-            if(i < stop){
-                $("#" + temp + i).css("background-color",color);
-                setTimeout(function(){ falling(coords, stop, temp, i, color); }, 75);
-            }else{
-                colorSelected(coords);
-            }
-
+    //Returns the falling color of the bubble, depending on the turn
+    function getFallingColor(){
+        if(turn == 1 ){
+            return fallingColor;
+        }else{
+            return fallingColor2;
+        }
     }
 
-    //This function takes coordinates and creates falling animation with time delay
-    //Uses falling, colorSelected functions
+    //This function takes in coordinates and creates falling animation with a specified time delay
+    //After the falling animation it updates the color of the lowest uncolored bubble
     function fallingAnim(coords){
-        var stop = coords.slice(3,4);
-        var temp = coords.slice(0,3);
-        if(turn == 1 ){
-            var color = fallingColor;
-        }else{
-            var color = fallingColor2;
-        }
+        var falling_delay = 75;
+        var y_stop = coords.slice(3,4);
+        var all_but_y = coords.slice(0,3);
 
-        if(temp == stop){
-            colorSelected(coords);
-            return;
+        for (let i = 0; i <= y_stop; i++){
+            if(i == y_stop){
+                setTimeout( function() {
+                    clearColors($("#" + all_but_y + i).get(0));
+                    colorSelected("#" + coords);
+                }, falling_delay * i);
+            }else{
+                setTimeout( function() {
+                    clearColors($("#" + coords).get(0));
+                    $("#" + all_but_y + i).css("background-color", getFallingColor());
+                    }, falling_delay * i);
+            }
         }
-
-        var color
-        var i = 0;
-            $("#" + temp + i).css("background-color",color);
-            setTimeout(function(){ falling("#" + temp + stop, stop, temp, i,color); }, 75);
     }
 
     //Clears colors & reduces the size of the bubbles to normal, leaving only the ones that already have a green or orange ball
     function clearColors($temp){
-        $(this).css("background-color","white");
-        $('.bubble').each(function(i, obj) {
+        //$(this).css("background-color","white");
+        $('.bubble').each(function() {
             if(this.id.slice(0, 2) == $temp.id.slice(0,2)){
                 var color = $( this ).css( "background-color" );
                 $(this).css("width","85%");
@@ -368,7 +359,7 @@ var main = function () { "use strict";
                     var color = $( "#" + temp2 ).css( "background-color" );
                     if(color != setColor && color != setColor2){
                         // save current player 
-                        current_disk = temp2; 
+                        current_disk = temp2;
                         fallingAnim(temp2);
                         return;
                     }
