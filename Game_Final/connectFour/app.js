@@ -17,13 +17,6 @@ app.get("/", indexRouter);
 app.get("/play", indexRouter);
 app.get("/rules", indexRouter);
 
-app.get("/", (req, res) => {
-    res.render("splash.ejs", {
-      gamesInitialized: gameStatus.gamesInitialized,
-      gamesCompleted: gameStatus.gamesCompleted
-    });
-  });
-
 var server = http.createServer(app);
 const wss = new websocket.Server({ server });
 
@@ -37,20 +30,25 @@ wss.on("connection", function connection(ws) {
     let con = ws;
     con.id = connectionID++;
     
-    let playerType = currentGame.addPlayer(con);
+    let playerType = currentGame.addPlayer(con.id);
     websockets[con.id] = currentGame;
+
+    if(playerType == 0){
+        currentGame = new Game(gameStatus.gamesInitialized++);
+    }
 
     //Inform the client about the new player
     console.log(
-        "Player %s placed in %s game as %s player.",
+        "Player %s placed in %s game as player type %s.",
         con.id,
         currentGame.id,
         playerType
     );
-        //console.log("Connection state: "+ ws.readyState);
-        ws.send("You received player id " + con.id);
 
-        //receiving message
+    //console.log("Connection state: "+ ws.readyState);
+    ws.send("You received player id " + con.id + ", your player type is " + playerType);
+
+    //receiving message
     ws.on("message", function incoming(message) {
 
         console.log("[LOG] " + message);

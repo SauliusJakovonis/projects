@@ -1,24 +1,29 @@
-/* every game has two players, identified by their WebSocket */
-var game = function(gameID) {
-    this.playerA = null;
-    this.playerB = null;
-    this.id = gameID;
-    this.turn = 0; // "1" means green ball, "0" means orange ball
-    this.gameState = "W"; //"A" means A won, "B" means B won, "ABORTED" means the game was aborted, "W" Waiting to connect
- };
+/* every game has two players, identified by their connection ID */
 
-game.prototype.addPlayer = function(p) {  
-    if (this.playerA == null) {
-        this.playerA = p;
-        return "A";
+ function game(id){
+    this.id = id;
+    this.playerAid = -1;
+    this.playerBid = -1;
+
+    this.totalPoints = 0;
+    this.winner = null;
+
+    this.getID = function(){ return this.id; };
+    this.setID = function(id){ this.id = id; };
+}
+
+
+game.prototype.addPlayer = function(conID) {
+    if (this.playerAid == -1) {
+        this.playerAid = conID;
+        return "1";
     } else {
-        this.playerB = p;
-        return "B";
+        this.playerBid = conID;
+        return "0";
     }
 };
 
-game.prototype.hasTwoConnectedPlayers = function() {
-    return this.gameState == "";
-};
-
 module.exports = game;
+
+
+
