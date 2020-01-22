@@ -2,10 +2,10 @@ var main = function () { "use strict";
     function changeVisibility(){
         if($("#stats").css( "visibility" ) == "hidden"){
             $("#stats").css("visibility", "visible");
-            $("#icon").attr('src','./resources/stats.png');
+            $("#icon").attr('src','./images/stats.png');
         }else{
             $("#stats").css("visibility", "hidden");
-            $("#icon").attr('src','./resources/stats2.png');
+            $("#icon").attr('src','./images/stats2.png');
         }
     }
 
