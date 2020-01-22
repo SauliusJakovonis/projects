@@ -1,18 +1,22 @@
 html,
-body,
+body {
+    background-color:#424242;
+    height:100%;
+    font-weight: 300;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", 
+    Helvetica, Arial, "Lucida Grande", sans-serif;
+}
 main,
 #menu{
     background-color:#424242;
     height:100%;
+
 }
 
 #logo {
     color: rgb(255, 255, 255);
     font-size: 40px;
     margin:0;
-    font-weight: 300;
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", 
-    Helvetica, Arial, "Lucida Grande", sans-serif;
     position: absolute;
     text-align: center;
     top: 23px;
@@ -60,9 +64,6 @@ a.button {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: 300;
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", 
-    Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 #square-large {
