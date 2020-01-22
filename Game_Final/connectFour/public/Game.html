@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Connect 4: a two-player connection game</title>
+    <link rel="stylesheet" href="./stylesheets/game.css" type="text/css"/>
+  </head>
+  <body>
+    <main>
+        <div class = "container">
+            <div id="square-large" class="background">
+                <div id="square-small" class="background">
+                    <div id = "game-over">
+                        <h1 id = "won" class = "text">Player 0 won!</h1>
+                        <a id = "home2" class="button" href="./">HOME</a>
+                        <a id = "replay" class="button" href="./play">Play again</a>
+                    </div>
+
+                    <div id = "main-part">
+                        <section id="top-bar">
+                            <h1 id = "logo" class = "logo">🅒🅞🅝🅝🅔🅒🅣 ➍</h1>
+                            <a id = "home" class="button" href="./">HOME</a>
+                            <a id = "retry" class="button" href="./rules">RULES</a>
+                        </section>
+
+                        <section id="game">
+            
+                            <table id = "mesh">
+                                <tr id = "y0" class = "row">
+                                    <th> <div id = "x0y0" class = "bubble"></div> </th>
+                                    <th> <div id = "x1y0" class = "bubble"></div> </th>
+                                    <th> <div id = "x2y0" class = "bubble"></div> </th>
+                                    <th> <div id = "x3y0" class = "bubble"></div> </th>
+                                    <th> <div id = "x4y0" class = "bubble"></div> </th>
+                                    <th> <div id = "x5y0" class = "bubble"></div> </th>
+                                    <th> <div id = "x6y0" class = "bubble"></div> </th>
+                                </tr>
+                                <tr id = "y1" class = "row">
+                                    <th> <div id = "x0y1" class = "bubble"></div> </th>
+                                    <th> <div id = "x1y1" class = "bubble"></div> </th>
+                                    <th> <div id = "x2y1" class = "bubble"></div> </th>
+                                    <th> <div id = "x3y1" class = "bubble"></div> </th>
+                                    <th> <div id = "x4y1" class = "bubble"></div> </th>
+                                    <th> <div id = "x5y1" class = "bubble"></div> </th>
+                                    <th> <div id = "x6y1" class = "bubble"></div> </th>
+                                </tr>
+                                <tr id = "y2" class = "row">
+                                    <th> <div id = "x0y2" class = "bubble"></div> </th>
+                                    <th> <div id = "x1y2" class = "bubble"></div> </th>
+                                    <th> <div id = "x2y2" class = "bubble"></div> </th>
+                                    <th> <div id = "x3y2" class = "bubble"></div> </th>
+                                    <th> <div id = "x4y2" class = "bubble"></div> </th>
+                                    <th> <div id = "x5y2" class = "bubble"></div> </th>
+                                    <th> <div id = "x6y2" class = "bubble"></div> </th>
+                                </tr>
+                                <tr id = "y3" class = "row">
+                                    <th> <div id = "x0y3" class = "bubble"></div> </th>
+                                    <th> <div id = "x1y3" class = "bubble"></div> </th>
+                                    <th> <div id = "x2y3" class = "bubble"></div> </th>
+                                    <th> <div id = "x3y3" class = "bubble"></div> </th>
+                                    <th> <div id = "x4y3" class = "bubble"></div> </th>
+                                    <th> <div id = "x5y3" class = "bubble"></div> </th>
+                                    <th> <div id = "x6y3" class = "bubble"></div> </th>
+                                </tr>
+                                <tr id = "y4" class = "row"> 
+                                    <th> <div id = "x0y4" class = "bubble"></div> </th>
+                                    <th> <div id = "x1y4" class = "bubble"></div> </th>
+                                    <th> <div id = "x2y4" class = "bubble"></div> </th>
+                                    <th> <div id = "x3y4" class = "bubble"></div> </th>
+                                    <th> <div id = "x4y4" class = "bubble"></div> </th>
+                                    <th> <div id = "x5y4" class = "bubble"></div> </th>
+                                    <th> <div id = "x6y4" class = "bubble"></div> </th>
+                                </tr>
+                                <tr id = "y5" class = "row">
+                                    <th> <div id = "x0y5" class = "bubble"></div> </th>
+                                    <th> <div id = "x1y5" class = "bubble"></div> </th>
+                                    <th> <div id = "x2y5" class = "bubble"></div> </th>
+                                    <th> <div id = "x3y5" class = "bubble"></div> </th>
+                                    <th> <div id = "x4y5" class = "bubble"></div> </th>
+                                    <th> <div id = "x5y5" class = "bubble"></div> </th>
+                                    <th> <div id = "x6y5" class = "bubble"></div> </th>
+                                </tr>
+                            </table>
+                    
+                        </section>
+                    </div>
+                    <section id="side-bar">
+                        <div id = "game-rules">
+                            <h2 class = "title">Game Info</h2>
+                        </div>
+                        <div id = "announcements">
+                            <div id = "client-messages">
+                                <h2 class = "title">Client messages</h2>
+                                <p1 id = "playerInfo">Player 1's turn!</p1>
+                            </div>
+                            <div id = "stats">
+                                <h2 class = "title">Stats</h2>
+                                <p1 id = "times" class = "text">Times played: TODO<br/></p1>
+                                <p1 id = "duration" class = "text">Game duration: TODO<br/></p1>
+                                <p1 id = "wins1" class = "text">Player1 wins: TODO<br/></p1>
+                                <p1 id = "wins2" class = "text">Player2 wins: TODO<br/></p1>
+                            </div>
+                        </div>
+                        <div id = "game-version">
+                            <h2 class = "title">2020-01 <br> game version 1.0</h2>
+                        </div>
+                    </section>
+                </div>  
+            </div>
+        </div>
+    </main>
+
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script type= "text/javascript" src = "javascripts/actions.js" ></script>
+
+  </body>
+</html>

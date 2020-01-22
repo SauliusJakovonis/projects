@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Connect 4: a two-player connection game</title>
+    <link rel="stylesheet" href="stylesheets/splash.css" />
+  </head>
+  <body>
+    <main>
+      <section id="menu">
+        <div class = "container">
+          <div id="square-large" class="background">
+              <div id="square-small" class="background">
+                  <h1 id = "logo" class = "logo">🅒🅞🅝🅝🅔🅒🅣 ➍</h1>
+                  <a id = "play" class="button" href="./play">PLAY!</a>
+                  <a id = "rules" class="button" href="./rules">Read the rules</a>
+                  <p1 id="description" class="text">Connect 4! A classic table game. Brought back to life by TU delft students for Web & Database course. Enjoy! </p1>
+                  <img id="icon" src="./images/stats2.png" alt="Italian Trulli">
+              </div>
+          </div>
+          <div id="stats">
+            <div id="square-small2" class="background">
+              <h1 id = "stats-title">Stats</h1>
+              <p1 id = "times" class = "text">Times played: TODO<br/></p1>
+              <p1 id = "duration" class = "text">Game duration: TODO<br/></p1>
+              <p1 id = "wins1" class = "text">Player1 wins: TODO<br/></p1>
+              <p1 id = "wins2" class = "text">Player2 wins: TODO<br/></p1>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script type= "text/javascript" >
+      var main = function () { "use strict";
+        function changeVisibility(){
+          if($("#stats").css( "visibility" ) == "hidden"){
+            $("#stats").css("visibility", "visible");
+            $("#icon").attr('src','./images/stats.png');
+          }else{
+            $("#stats").css("visibility", "hidden");
+            $("#icon").attr('src','./images/stats2.png');
+          }
+        }
+
+        $("#icon").mouseup(function() {
+            changeVisibility();
+        });
+
+        $("#icon").mouseover(function() {
+          $("#icon").css("height", "56px");
+          $("#icon").css("width", "56px");
+          $("#icon").css("top", "-3px");
+          $("#icon").css("left", "257px");
+        });
+
+        $("#icon").mouseleave(function() {
+          $("#icon").css("height", "50px");
+          $("#icon").css("width", "50px");
+          $("#icon").css("top", "0px");
+          $("#icon").css("left", "260px");
+        });
+
+      };
+
+      $(document).ready(main);
+    </script>
+
+  </body>
+</html>
