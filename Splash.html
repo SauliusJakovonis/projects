@@ -12,9 +12,9 @@
           <div id="square-large" class="background">
               <div id="square-small" class="background">
                   <h1 id = "logo" class = "logo">🅒🅞🅝🅝🅔🅒🅣 ➍</h1>
-                  <a id = "play" class="button" href="./game.html">PLAY!</a>
-                  <a id = "rules" class="button" href="./rules.html">Read the rules</a>
-                  <p1 id="description" class="text">Connect 4! A classic table game. Brought back to life by TU delft students for Web & Database course. Enjoy! </p1>
+                  <a id = "play" class="button" href="./game.html">PLAY</a>
+                  <a id = "rules" class="button" href="./rules.html">RULES</a>
+                  <p1 id="description" class="text">Connect 4! A classic table game. Brought by TU delft students for Web & Database course. Enjoy! </p1>
                   <img id="icon" src="./resources/stats2.png" alt="Italian Trulli">
               </div>
           </div>
@@ -33,40 +33,8 @@
 
     <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-    <script type= "text/javascript" >
-      var main = function () { "use strict";
-        function changeVisibility(){
-          if($("#stats").css( "visibility" ) == "hidden"){
-            $("#stats").css("visibility", "visible");
-            $("#icon").attr('src','./resources/stats.png');
-          }else{
-            $("#stats").css("visibility", "hidden");
-            $("#icon").attr('src','./resources/stats2.png');
-          }
-        }
+    <script type= "text/javascript" src = "js/splash-actions.js" ></script>
 
-        $("#icon").mouseup(function() {
-            changeVisibility();
-        });
-
-        $("#icon").mouseover(function() {
-          $("#icon").css("height", "56px");
-          $("#icon").css("width", "56px");
-          $("#icon").css("top", "-3px");
-          $("#icon").css("left", "257px");
-        });
-
-        $("#icon").mouseleave(function() {
-          $("#icon").css("height", "50px");
-          $("#icon").css("width", "50px");
-          $("#icon").css("top", "0px");
-          $("#icon").css("left", "260px");
-        });
-
-      };
-
-      $(document).ready(main);
-    </script>
 
   </body>
 </html>
