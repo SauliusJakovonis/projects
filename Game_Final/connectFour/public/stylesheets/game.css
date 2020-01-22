@@ -1,8 +1,13 @@
 html,
-body,
-main {
+body{
     background-color:#424242;
     height:100%;
+    font-weight: 300;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", 
+    Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+main{
+    background-color:#424242;
 }
 
 a.button {
@@ -46,10 +51,9 @@ div.bubble {
 
 #logo {
     color: rgb(255, 255, 255);
-    font-weight: 900;
     font-size: 40px;
     margin:0;
-    font-family: 'Courier New', Courier, monospace;
+   
 }
 
 .container {
