@@ -8,10 +8,11 @@ main,
 
 #logo {
     color: rgb(255, 255, 255);
-    font-weight: 900;
     font-size: 40px;
     margin:0;
-    font-family: 'Courier New', Courier, monospace;
+    font-weight: 300;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", 
+    Helvetica, Arial, "Lucida Grande", sans-serif;
     position: absolute;
     text-align: center;
     top: 23px;
@@ -59,6 +60,9 @@ a.button {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: 300;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", 
+    Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 #square-large {
