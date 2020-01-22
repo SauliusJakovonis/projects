@@ -128,12 +128,10 @@ var main = function () { "use strict";
            // check right
                 for(var i = curr_loc + 1; i <= 6; i ++){
                     var check_loc = current_disk.slice(0,1) + i + current_disk.slice(2,4);
-                    //console.log(disk_count);
 
                     var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
                     if(color == currentColor()){
                         disk_count++;
-                        console.log(disk_count );
                         if(disk_count >= 4){
                             gameOver(turn);
                             return;
@@ -146,12 +144,10 @@ var main = function () { "use strict";
              // check left
                 for(var i = curr_loc - 1; i >= 0; i --){
                     var check_loc = current_disk.slice(0,1) + i + current_disk.slice(2,4);
-                    //console.log(disk_count);
 
                     var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
                     if(color == currentColor()){
                         disk_count++;
-                        console.log(disk_count );
                         if(disk_count >= 4){
                             gameOver(turn);
                             return;
@@ -177,7 +173,6 @@ var main = function () { "use strict";
                     var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
                     if(color == currentColor()){
                         disk_count++;
-                        console.log(disk_count );
                         if(disk_count >= 4){
                             gameOver(turn);
                             return;
@@ -195,7 +190,6 @@ var main = function () { "use strict";
                 var color = $( "#" + check_loc ).css( "background-color" ); //saves the color of the current bubble
                 if(color == currentColor()){
                     disk_count++;
-                    console.log(disk_count );
                     if(disk_count >= 4){
                         gameOver(turn);
                         return;
