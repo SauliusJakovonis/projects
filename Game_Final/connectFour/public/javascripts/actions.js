@@ -2,7 +2,7 @@ var setColor = "rgb(0, 128, 0)";
 var setColor2 = "rgb(253, 98, 70)";
 var fallingColor = "rgb(52, 168, 50)";
 var fallingColor2 = "rgb(253, 168, 50)";
-var freeze = false; //freezes the game after the game is over
+var freeze = true; //freezes the game after the game is over
 var turn = 1;
 var current_disk = ""; // saves last placed disk on game area
 
@@ -12,6 +12,39 @@ var socket = new WebSocket("ws://localhost:3000");
 
     socket.onmessage = function(event){
         console.log(event.data);
+        let oMsg = JSON.parse(event);
+        if (oMsg.type == messages.T_GAME_STARTED) {
+           freeze = false;
+        
+        }else if (oMsg.type == messages.T_MAKE_A_MOVE){
+
+            changeTurn();
+
+            clearColors(this);
+            var temp = (oMsg.data).slice(0,3);
+            var i = 5;
+
+
+            while(i >= 0){
+                var temp2 = temp + i;
+                var color = $( "#" + temp2 ).css( "background-color" );
+                if(color != setColor && color != setColor2){
+                    // save current player 
+                    current_disk = temp2;
+                    fallingAnim(temp2);
+                    return;
+                }
+                i--;
+            }
+            play("error");
+            $('#playerInfo').css("color", "red");
+            $('#playerInfo').text("The stack is full!");
+            flashAnnouncement(2);
+            setTimeout(function(){ changeTurn(); changeTurn();}, 1500);
+            freeze = false;
+        }
+
+
     }
 
     socket.onopen = function(){
@@ -25,9 +58,11 @@ var socket = new WebSocket("ws://localhost:3000");
             if(turn == 1){
                 $('#playerInfo').text("Player 2's turn!");
                 turn = 0;
+              
             }else{
                 $('#playerInfo').text("Player 1's turn!");
                 turn = 1;
+
             }
             flashAnnouncement(1);
         }
@@ -374,6 +409,13 @@ var socket = new WebSocket("ws://localhost:3000");
                 $('#playerInfo').text("The stack is full!");
                 flashAnnouncement(2);
                 setTimeout(function(){ changeTurn(); changeTurn();}, 1500);
+
+
+                freeze = true;
+
+                let msg = messages.O_MAKE_A_MOVE;
+                msg.data = current_disk;
+                con.send(JSON.stringify(msg))
             }
         }); 
 

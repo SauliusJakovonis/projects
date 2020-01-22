@@ -16,6 +16,12 @@
   };
   exports.S_GAME_ABORTED = JSON.stringify(exports.O_GAME_ABORTED);
 
+
+  exports.O_GAME_STARTED = {
+    type: "GAME-STARTED",
+    data: null
+  };
+  exports.S_GAME_STARTED = JSON.stringify(exports.O_GAME_STARTED);
   /*
    * Server to client: set as player A (green)
    */

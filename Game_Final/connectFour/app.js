@@ -48,6 +48,9 @@ wss.on("connection", function connection(ws) {
     //console.log("Connection state: "+ ws.readyState);
     ws.send("You received player id " + con.id + ", your player type is " + playerType);
 
+    let msg = messages._GAME_STARTED;
+    con.send(JSON.stringify(msg))
+
     //receiving message
     ws.on("message", function incoming(message) {
 
@@ -56,6 +59,10 @@ wss.on("connection", function connection(ws) {
         if(message == "GAME-ABORTED"){
             ws.close();
             console.log("Player left!");
+        }
+
+        if(message == "MAKE-A-MOVE"){
+    
         }
     });
 });
