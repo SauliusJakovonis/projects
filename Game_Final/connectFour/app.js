@@ -41,7 +41,7 @@ wss.on("connection", function connection(ws) {
     console.log(
         "Player %s placed in %s game as player type %s.",
         con.id,
-        currentGame.id,
+        websockets[con.id].id,
         playerType
     );
 
@@ -55,6 +55,15 @@ wss.on("connection", function connection(ws) {
     ws.on("message", function incoming(message) {
 
         console.log("[LOG] " + message);
+
+        websockets[con.id].
+
+        if(websockets[con.id].playerAid == con.id){
+            // player A 
+            
+        } else {
+            // player B 
+        }
 
         if(message == "GAME-ABORTED"){
             ws.close();
