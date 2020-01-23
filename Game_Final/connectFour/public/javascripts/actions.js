@@ -11,17 +11,30 @@ var main = function () { "use strict";
 var socket = new WebSocket("ws://localhost:3000");
 
     socket.onmessage = function(event){
-        console.log(event.data);
-        let oMsg = JSON.parse(event);
-        if (oMsg.type == messages.T_GAME_STARTED) {
-           freeze = false;
-        
-        }else if (oMsg.type == messages.T_MAKE_A_MOVE){
+        console.log("INITIAL LOG" + event.data);
 
+
+        let oMsg = JSON.parse(event.data);
+        console.log(oMsg); 
+        
+        if(oMsg["player_type"] == 1){
+            freeze = false;  
+        }
+            
+        
+        if (oMsg["type"] == "MAKE-A-MOVE"){
+            
+            console.log("TYPE IDEED")
             changeTurn();
 
-            clearColors(this);
-            var temp = (oMsg.data["move"]).slice(0,3);
+            clearColors(REFERENCE BUBBLE OBJECT HERE);
+           
+            var temp = oMsg.move;
+            console.log(temp);
+            temp= temp.toString();
+            temp= temp.slice(0,3);
+
+            console.log(temp);
             var i = 5;
 
             while(i >= 0){
@@ -47,7 +60,8 @@ var socket = new WebSocket("ws://localhost:3000");
     }
 
     socket.onopen = function(){
-        socket.send("Hello from the client!");
+        //var token= {"Startup" : 1}
+        //socket.send(JSON.stringify(token));
     };
 
     //Changes turn variable and updates text on the screen
@@ -326,6 +340,14 @@ var socket = new WebSocket("ws://localhost:3000");
                 setTimeout( function() {
                     clearColors($("#" + all_but_y + i).get(0));
                     colorSelected("#" + coords);
+                    freeze = true;
+
+                    let msg = {"type": "MAKE-A-MOVE", "move": current_disk};
+                
+                    socket.send(JSON.stringify(msg));
+
+                    console.log( "Falling msg" + msg);
+
                 }, falling_delay * i);
             }else{
                 setTimeout( function() {
@@ -386,11 +408,12 @@ var socket = new WebSocket("ws://localhost:3000");
         //When the mouse is released falling animation is executed and a bubble that is lowest free bubble gets colored, 
         //depending on turn. Player 1 is green, player2 is orange
         $(".bubble").mouseup(function() {
+
+
             if(!freeze){
                 clearColors(this);
                 var temp = this.id.slice(0,3);
                 var i = 5;
-
 
                 while(i >= 0){
                     var temp2 = temp + i;
@@ -403,23 +426,16 @@ var socket = new WebSocket("ws://localhost:3000");
                     }
                     i--;
                 }
+
+        
                 play("error");
                 $('#playerInfo').css("color", "red");
                 $('#playerInfo').text("The stack is full!");
                 flashAnnouncement(2);
                 setTimeout(function(){ changeTurn(); changeTurn();}, 1500);
 
-
-                freeze = true;
-
-                let msg = messages.O_MAKE_A_MOVE;
-
-                msg.data = {
-                   "move": current_disk,
-                   "player": turn};
-
-                con.send(JSON.stringify(msg));
             }
+
         }); 
 
         $("#playerInfo").mouseup(function() {

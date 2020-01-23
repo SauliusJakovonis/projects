@@ -45,8 +45,9 @@ wss.on("connection", function connection(ws) {
         playerType
     );
 
+    var client_packet = {"player_ID" : con.id ,  "player_type": playerType}
     //console.log("Connection state: "+ ws.readyState);
-    ws.send("You received player id " + con.id + ", your player type is " + playerType);
+    ws.send(JSON.stringify(client_packet));
 
     let msg = messages.O_GAME_STARTED;
     con.send(JSON.stringify(msg));
@@ -54,15 +55,16 @@ wss.on("connection", function connection(ws) {
     //receiving message
     ws.on("message", function incoming(message) {
 
+        console.log(message);
         let oMsg = JSON.parse(message);
         let gameObj = websockets[con.id];
 
-        console.log("[LOG] " + message);
+    
 
-        let isPlayerA = gameObj.playerAid == con ? true : false;
+        let isPlayerA = gameObj.playerAid == con.id ? true : false;
 
         //If a player makes a move, the move gets sent to the other player
-        if (oMsg.type == messages.T_MAKE_A_MOVE) {
+        if (oMsg.type == "MAKE-A-MOVE") {
             let conOtherPlayer = ws;
 
             if (isPlayerA) {
@@ -75,14 +77,12 @@ wss.on("connection", function connection(ws) {
 
         }
 
-        if(message == "GAME-ABORTED"){
+        if(oMsg.type == "GAME-ABORTED"){
             ws.close();
             console.log("Player left!");
         }
 
-        if(message == "MAKE-A-MOVE"){
-    
-        }
+       
     });
 });
 
