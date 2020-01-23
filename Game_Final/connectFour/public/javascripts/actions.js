@@ -21,9 +21,8 @@ var socket = new WebSocket("ws://localhost:3000");
             changeTurn();
 
             clearColors(this);
-            var temp = (oMsg.data).slice(0,3);
+            var temp = (oMsg.data["move"]).slice(0,3);
             var i = 5;
-
 
             while(i >= 0){
                 var temp2 = temp + i;
@@ -414,8 +413,12 @@ var socket = new WebSocket("ws://localhost:3000");
                 freeze = true;
 
                 let msg = messages.O_MAKE_A_MOVE;
-                msg.data = current_disk;
-                con.send(JSON.stringify(msg))
+
+                msg.data = {
+                   "move": current_disk,
+                   "player": turn};
+
+                con.send(JSON.stringify(msg));
             }
         }); 
 
