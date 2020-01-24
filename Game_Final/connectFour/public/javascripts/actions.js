@@ -3,47 +3,56 @@ var setColor2 = "rgb(253, 98, 70)";
 var fallingColor = "rgb(52, 168, 50)";
 var fallingColor2 = "rgb(253, 168, 50)";
 var freeze = true; //freezes the game after the game is over
+var isGameOver = false;
 var turn = 1;
 var current_disk = ""; // saves last placed disk on game area
+var player_priority = -1;
 
 var main = function () { "use strict";
 
 var socket = new WebSocket("ws://localhost:3000");
 
     socket.onmessage = function(event){
-        console.log("INITIAL LOG" + event.data);
-
 
         let oMsg = JSON.parse(event.data);
-        console.log(oMsg); 
         
-        if(oMsg["player_type"] == 1){
-            freeze = false;  
+        if(player_priority == -1){
+            if(oMsg["player_type_"] == "1"){
+                console.log("TYPE CHANGED");
+                player_priority = 1;
+                waitingForConnection(true);  //Player that connected first gets a waiting-for-another player pop-up
+            }else{
+                console.log("TYPE CHANGED");
+                player_priority = 0;
+            }
         }
-            
+
+        if(oMsg["type"] == "OPPONENT-CONNECTED" && player_priority == 1){
+            waitingForConnection(false);
+        }
         
+        if (oMsg["type"] == "GAME-IS-OVER"){
+            isGameOver = true;
+        }
+
+        if (oMsg["type"] == "PLAYER-QUIT"){
+            playerQuit();
+        }
+
         if (oMsg["type"] == "MAKE-A-MOVE"){
-            
-            console.log("TYPE IDEED")
-            changeTurn();
 
-            clearColors(REFERENCE BUBBLE OBJECT HERE);
-           
-            var temp = oMsg.move;
-            console.log(temp);
-            temp= temp.toString();
-            temp= temp.slice(0,3);
+            var currentMove = oMsg.move.toString().slice(0,3);
 
-            console.log(temp);
             var i = 5;
 
             while(i >= 0){
-                var temp2 = temp + i;
-                var color = $( "#" + temp2 ).css( "background-color" );
+                var firstClearBubbleCoords = currentMove + i; //Generates coords for each bubble in given Y coord
+                var color = $( "#" + firstClearBubbleCoords ).css( "background-color" );
                 if(color != setColor && color != setColor2){
                     // save current player 
-                    current_disk = temp2;
-                    fallingAnim(temp2);
+                    current_disk = firstClearBubbleCoords;
+                    fallingAnim(firstClearBubbleCoords);
+    
                     return;
                 }
                 i--;
@@ -54,31 +63,61 @@ var socket = new WebSocket("ws://localhost:3000");
             flashAnnouncement(2);
             setTimeout(function(){ changeTurn(); changeTurn();}, 1500);
             freeze = false;
-        }
 
+           
+        }
 
     }
 
     socket.onopen = function(){
-        //var token= {"Startup" : 1}
-        //socket.send(JSON.stringify(token));
+
     };
+
+    //displays on the screen that the game is currently waiting for another player
+    function waitingForConnection(waiting){
+        if (waiting){
+            $('#playerInfo').text("Waiting for connection...");
+            $('#won').text("Waiting for connection...");
+            $('#game-over').css("visibility", "visible");
+            $('#replay').css("visibility", "hidden");
+            $('#playerInfo').css("color", "green");
+        }else{
+            freeze = false;
+            $('#playerInfo').text("It's your turn!");
+            $('#won').text("Waiting for connection...");
+            $('#game-over').css("visibility", "hidden");
+            $('#playerInfo').css("color", "white");
+        }
+    }  
+
+    function playerQuit(){
+            freeze = true;
+            $('#playerInfo').text("Your opponent left...");
+            $('#won').text("Your opponent left...");
+            $('#game-over').css("visibility", "visible");
+            $('#replay').css("visibility", "hidden");
+            $('#playerInfo').css("color", "green");
+
+    }  
 
     //Changes turn variable and updates text on the screen
     function changeTurn(){
-        if(!freeze){
-            $('#playerInfo').css("color", "white");
-            if(turn == 1){
-                $('#playerInfo').text("Player 2's turn!");
-                turn = 0;
-              
-            }else{
-                $('#playerInfo').text("Player 1's turn!");
-                turn = 1;
+            if(!isGameOver){
+                $('#playerInfo').css("color", "white");
+                if(turn != player_priority){
+                    $('#playerInfo').text("It's your turn!");
+                }else{
+                    $('#playerInfo').text("Wait for your opponent!");
+                }
 
+                if(turn == 1){
+                    turn = 0;
+                }else{
+                    turn = 1;
+
+                }
+                flashAnnouncement(1);
             }
-            flashAnnouncement(1);
-        }
     }
 
     //flashes the announcement box
@@ -98,16 +137,21 @@ var socket = new WebSocket("ws://localhost:3000");
 
     //Colors the final item after the falling animation is completed
     function colorSelected(temp2){
+       
         if(turn == 1){
                     $(temp2).css("background-color",setColor);
                     play("opponent2_4");
                     check();
-                    changeTurn();
+                    if(!isGameOver){
+                        changeTurn();
+                    }
                 }else{
                     $(temp2).css("background-color",setColor2);
                     play("opponent1_4");
                     check();
-                    changeTurn();
+                    if(!isGameOver){
+                        changeTurn();
+                    }
                 }
                 return;
     }
@@ -117,7 +161,7 @@ var socket = new WebSocket("ws://localhost:3000");
     //Plays audio with only title required as an input
     function play(audio){
         var obj = document.createElement("audio");
-        obj.src = "./images/"+audio+".mp3"; 
+        obj.src = "/images/"+audio+".mp3"; 
         obj.play(); 
     }
 
@@ -311,12 +355,32 @@ var socket = new WebSocket("ws://localhost:3000");
 
     //Shows game-over screen and asks to play again
     function gameOver(turn){
-        $('#playerInfo').text("Congratulations!! Player " + currentPlayer() + "wins!");
-        $('#won').text("Player " + currentPlayer() + " won!");
-        $('#game-over').css("visibility", "visible");
-        $('#playerInfo').css("color", "green");
-        play("opponent1_2");
-        freeze = true;
+
+        if(turn == -1){
+            $('#playerInfo').text("Your opponent left...");
+            $('#won').text("Your opponent left...");
+            $('#game-over').css("visibility", "visible");
+            $('#replay').css("visibility", "visible");
+            $('#playerInfo').css("color", "red");
+            play("error");
+        }
+
+        if(turn == currentPlayer(player_priority) && !isGameOver){
+            isGameOver = true;
+            $('#playerInfo').text("You win!");
+            $('#won').text("You win!");
+            $('#game-over').css("visibility", "visible");
+            $('#replay').css("visibility", "visible");
+            $('#playerInfo').css("color", "green");
+            play("opponent1_2");
+        }else{
+            $('#playerInfo').text("You lost...");
+            $('#won').text("You lost...");
+            $('#game-over').css("visibility", "visible");
+            $('#replay').css("visibility", "visible");
+            $('#playerInfo').css("color", "red");
+            play("opponent1_2");
+        }
     }
 
     //Returns the falling color of the bubble, depending on the turn
@@ -340,13 +404,27 @@ var socket = new WebSocket("ws://localhost:3000");
                 setTimeout( function() {
                     clearColors($("#" + all_but_y + i).get(0));
                     colorSelected("#" + coords);
-                    freeze = true;
 
-                    let msg = {"type": "MAKE-A-MOVE", "move": current_disk};
-                
-                    socket.send(JSON.stringify(msg));
+                    if(!isGameOver){
+                        if(freeze){
+                            freeze = false;
+                        }else{
+                            let msg = {"type": "MAKE-A-MOVE", "move": current_disk};
+                            socket.send(JSON.stringify(msg));
+                            freeze = true;
+                        }
+                    }
 
-                    console.log( "Falling msg" + msg);
+                    if(isGameOver) {
+                        if(!freeze){
+                            let msg = {"type": "GAME-IS-OVER"};
+                            socket.send(JSON.stringify(msg));
+
+                            msg = {"type": "MAKE-A-MOVE", "move": current_disk};
+                            socket.send(JSON.stringify(msg));
+                            freeze = true;
+                        }
+                    }
 
                 }, falling_delay * i);
             }else{
@@ -408,7 +486,6 @@ var socket = new WebSocket("ws://localhost:3000");
         //When the mouse is released falling animation is executed and a bubble that is lowest free bubble gets colored, 
         //depending on turn. Player 1 is green, player2 is orange
         $(".bubble").mouseup(function() {
-
 
             if(!freeze){
                 clearColors(this);

@@ -2,8 +2,8 @@
 
  function game(id){
     this.id = id;
-    this.playerAid = -1;
-    this.playerBid = -1;
+    this.playerA = null;
+    this.playerB = null;
 
     this.totalPoints = 0;
     this.winner = null;
@@ -13,12 +13,12 @@
 }
 
 
-game.prototype.addPlayer = function(conID) {
-    if (this.playerAid == -1) {
-        this.playerAid = conID;
+game.prototype.addPlayer = function(con) {
+    if (this.playerA == null) {
+        this.playerA = con;
         return "1";
     } else {
-        this.playerBid = conID;
+        this.playerB = con;
         return "0";
     }
 };
